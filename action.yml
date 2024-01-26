@@ -1,0 +1,21 @@
+name: "ModuleFast"
+author: "Justin Grote @JustinWGrote github.com/JustinGrote"
+description: "Installs PowerShell modules from the Gallery"
+branding:
+  color: "blue"
+  icon: "download-cloud"
+
+inputs:
+  modules:
+    description: 'The modules to install. Separate module specifications with a comma. Example: "Az, ImportExcel<2"'
+    required: true
+  args:
+    description: 'Additional arguments to pass to the modulefast installer. Example: "-Verbose"'
+
+runs:
+  using: "composite"
+  steps:
+    - id: passwordgenerator
+      run: |
+        & ([scriptblock]::Create((iwr 'bit.ly/modulefastmain'))) -Specification ${{ inputs.modules }}
+      shell: pwsh
