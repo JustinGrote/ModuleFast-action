@@ -1,21 +1,60 @@
 name: "ModuleFast"
 author: "Justin Grote @JustinWGrote github.com/JustinGrote"
-description: "Installs PowerShell modules from the Gallery"
+description: |
+  Installs PowerShell Modules in a high performance manner.
+
+  ModuleFast is a PowerShell module that installs other PowerShell modules. It is designed to be a high performance alternative to Install-Module. It is especially useful for CI/CD pipelines where you need to install a lot of modules quickly.
+
+  If the Runner Step Logging is enabled, this action will automatically run ModuleFast with -Debug and -Verbose. See: https://docs.github.com/en/actions/monitoring-and-troubleshooting-workflows/enabling-debug-logging
 branding:
   color: "blue"
   icon: "download-cloud"
 
 inputs:
-  modules:
-    description: 'The modules to install. Separate module specifications with a comma. Example: "Az, ImportExcel<2"'
-    required: true
+  specification:
+    description: |
+      The modules to install. Separate module specifications with a space or linebreak. If this setting is not specified, will look for a required modules spec in the working directory.
+
+      Example 1: modules: Az ImportExcel>2.0 Pester!:[4.10.1,5.0.0]
+      Example 2: modules: |
+        Az
+        ImportExcel<2.0
+        Pester!:[4.10.1,5.0.0]
+    required: false
+  path:
+    description: The path to a module specification file. If not specified, will look for a required modules spec in the working directory. Cannot be used with specification above.
+    required: false
+  destination:
+    description: The destination path to install the modules. If not specified it will be installed to the default module path on the runner.
+    required: false
+  release:
+    description: The release of ModuleFast to install. Can be a release tag e.g. v0.0.2 or a branch name. If not specified, will install the latest stable release. To use the latest available code from the main branch, specify "main". It is recommended you pin to a specific release to prevent your workflows from breaking if a new breaking version of ModuleFast is released.
+    required: false
+  update:
+    description: ModuleFast will not do a remote search if the locally installed modules satisfy your current spec requirements. If you want to force a remote search, set this to true. You should generally prefer to update your specifications to be more specific (e.g. 'Pester>5.0') rather than using this option.
+    required: false
   args:
-    description: 'Additional arguments to pass to the modulefast installer. Example: "-Verbose"'
+    description: 'Additional arguments to pass to the modulefast installer. Arguments *must* be specified in either -Parameter:Value format or just -Parameter for switches. Spaces between parameters is *not supported*. Example: "-Verbose"'
+    required: false
 
 runs:
   using: "composite"
   steps:
-    - id: passwordgenerator
+    - name: 💾 Cache Modulefast Modules
+      uses: actions/cache@v4
+      with:
+        path: /home/runner/.local/share/powershell/Modules
+        key: ${{ runner.os }}-${{ inputs.specification }}-${{ inputs.path }}
+
+    - name: "⚡ ModuleFast Install"
       run: |
-        & ([scriptblock]::Create((iwr 'bit.ly/modulefastmain'))) -Specification ${{ inputs.modules }}
+        #ModuleFast GitHub Action Bootstrap
+        $bootstrapParams = @{
+          ${{ inputs.release != 0 && format('Release=''{0}''', inputs.release) || '' }}
+          Debug = ${{ runner.debug != 0 && '$true' || '$false' }}
+        }
+        $imfParams = @{
+          ${{ inputs.specification != 0 && format('Specification=''{0}''', inputs.specification) || '' }}
+        }
+        ${{ github.action_path }}/action.ps1 $bootstrapParams $imfParams $bootstrapParams.Debug ${{ inputs.args }}
       shell: pwsh

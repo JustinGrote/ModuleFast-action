@@ -1,8 +1,5 @@
 {
-  "yaml.schemas": {
-    ".github/workflows/*.yml": [
-      "https://json.schemastore.org/github-workflow.json"
-    ],
-    "https://json.schemastore.org/github-action.json": "file:///c%3A/Users/JGrote/Projects/ModuleFast-action/action.yml"
-  }
+	"github-actions.workflows.pinned.workflows": [
+		".github/workflows/actionTest.yml"
+	]
 }
