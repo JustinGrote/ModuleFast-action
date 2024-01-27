@@ -1,0 +1,27 @@
+name: 🧪 ModuleFast Action Test
+on:
+  push:
+  workflow_dispatch:
+defaults:
+  run:
+    shell: pwsh
+jobs:
+  test:
+    name: 🧪 ModuleFast Action Test
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📂 Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: 🎬 ModuleFast Action
+        uses: ./
+        with:
+          release: main
+          specification: |
+            ImportExcel
+            TeamViewerPS
+            PendingReboot
+      - name: 🧪 Verify Module Install
+        run: |
+          Get-Module -ListAvailable DellBIOSProvider -ErrorAction Stop
