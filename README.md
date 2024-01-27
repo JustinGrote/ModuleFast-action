@@ -71,3 +71,9 @@ You can choose to specify your dependencies directly in the github action. Speci
 ### CI Lockfile
 
 If you run Install-ModuleFast -CI locally, it will write a lock file to your repository. If you commit this lockfile, then the ModuleFast action will only install the specific modules specified in the lockfile if it is detected.
+
+### Troubleshooting
+
+Modulefast reports information about what it is doing and its results normally. For highly detailed information, rerun a job with [debug logging enabled](https://docs.github.com/en/actions/monitoring-and-troubleshooting-workflows/enabling-debug-logging) to see more information.
+
+![Enable ModuleFast Debugging](images/README/image.png)
