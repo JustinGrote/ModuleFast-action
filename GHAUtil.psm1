@@ -1,3 +1,4 @@
+#Version 0.0.1
 using namespace System.Collections.Generic
 using namespace Microsoft.PowerShell.Commands.Internal.Format
 
@@ -64,7 +65,6 @@ function Initialize-GhaEnvironment ([switch]$Debug) {
   $GLOBAL:PSStyle.Formatting.Debug = $PSStyle.Foreground.Magenta
   $GLOBAL:ErrorView = 'NormalView'
   $GLOBAL:ErrorActionPreference = 'Stop'
-
 }
 
 filter Out-GhaTable {
@@ -79,10 +79,17 @@ filter Out-GhaTable {
   }
 }
 
-filter Write-GhaStepSummary ([Parameter(Mandatory, ValueFromPipeline)]$InputObject, [switch]$NoNewLine) {
+filter Write-GhaStepSummary (
+  [Parameter(Mandatory, ValueFromPipeline)]$InputObject,
+  [switch]$NoNewLine
+) {
   Out-File -InputObject $InputObject -FilePath $SCRIPT:StepOutput -Append:(!$Reset) -NoNewline:$NoNewLine
 }
 
 function Clear-GhaStepSummary {
   Remove-Item -Path $SCRIPT:StepOutput -Force -ErrorAction SilentlyContinue
+}
+
+function Write-GhaError {
+  '::error file=app.js,line=1::Missing semicolon'
 }
