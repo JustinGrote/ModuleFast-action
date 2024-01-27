@@ -6,6 +6,13 @@ param(
 Import-Module $PSScriptRoot/GHAUtil.psm1
 Initialize-GhaEnvironment -Debug:$Debug
 
+Write-Debug 'Env and Variables'
+Write-Debug '================'
+Get-ChildItem env: | Format-Table | Out-String | Write-Debug
+Write-Debug '================'
+Get-Variable | Format-Table | Out-String | Write-Debug
+Write-Debug '================'
+
 Write-Debug 'Bootstrapping Modulefast'
 #Bootstrap the ModuleFast module
 . $PSScriptRoot\ModuleFast.ps1 @bootstrapParams
@@ -24,6 +31,7 @@ $imfCommonParams = @{
   PassThru    = $true
   Debug       = $Debug
   Verbose     = $true
+  CI          = $true #For detecting lockfiles. The written CI file will be discarded.
 }
 
 Install-ModuleFast @imfParams @imfCommonParams @args

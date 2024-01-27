@@ -14,7 +14,8 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - name: 🎬 ModuleFast Action
+
+      - name: 🧪 ModuleFast Action - Specification
         uses: ./
         with:
           release: main
@@ -22,6 +23,14 @@ jobs:
             ImportExcel
             TeamViewerPS
             PendingReboot
-      - name: 🧪 Verify Module Install
+      - name: 🧪 Verify ModuleFast Action - Specification
         run: |
           Get-Module -ListAvailable DellBIOSProvider -ErrorAction Stop
+
+      - name: 🧪 ModuleFast Action - Requires File Detection
+        uses: ./
+        with:
+          release: main
+      - name: 🧪 Verify ModuleFast Action - Specification
+        run: |
+          Get-Module -ListAvailable Az.Accounts -ErrorAction Stop

@@ -26,7 +26,7 @@ inputs:
     description: The release of ModuleFast to install. Can be a release tag e.g. v0.0.2 or a branch name. If not specified, will install the latest stable release. To use the latest available code from the main branch, specify "main". It is recommended you pin to a specific release to prevent your workflows from breaking if a new breaking version of ModuleFast is released.
     required: false
   update:
-    description: ModuleFast will not do a remote search if the locally installed modules satisfy your current spec requirements. If you want to force a remote search, set this to true. You should generally prefer to update your specifications to be more specific (e.g. 'Pester>5.0') rather than using this option.
+    description: ModuleFast will not do a remote search of the locally installed or cached modules to satisfy your current spec requirements. If you want to force a remote search for updates every time, set this to true. You should generally prefer to update your specifications to be more specific (e.g. 'Pester>5.0') rather than using this option.
     required: false
   args:
     description: 'Additional arguments to pass to the modulefast installer. Arguments *must* be specified in either -Parameter:Value format or just -Parameter for switches. Spaces between parameters is *not supported*. Example: "-Verbose"'
@@ -39,7 +39,7 @@ runs:
       uses: actions/cache@v4
       with:
         path: /home/runner/.local/share/powershell/Modules
-        key: ${{ runner.os }}-${{ inputs.specification }}-${{ inputs.path }}
+        key: ${{ runner.os }}-${{ inputs.specification }}-${{ inputs.path }}-${{ hashFiles('**/*.requires.*')}}-${{ hashFiles('requires.lock.json')}}
 
     - name: "⚡ ModuleFast Install"
       run: |
