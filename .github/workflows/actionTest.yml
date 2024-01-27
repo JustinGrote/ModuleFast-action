@@ -20,7 +20,7 @@ jobs:
             'Pester'           = '=5.4.0'
             'Az.Accounts'      = ':[2.0.0, 2.13.2)'
           }
-          '@ | Out-File -FilePath ./Test.requires.ps1 -Encoding utf8 -Force
+          '@ | Out-File -FilePath ./Test.requires.psd1 -Encoding utf8 -Force
 
       - name: Install Modules
         uses: JustinGrote/ModuleFast-action@v0.0.0-alpha3
