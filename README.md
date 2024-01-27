@@ -74,7 +74,7 @@ If you run Install-ModuleFast -CI locally, it will write a lock file to your rep
 
 ### Pinning a ModuleFast Release Version
 
-Modulefast by default will run with the latest released version on GitHub. It is strongly recommended however that you
+ModuleFast by default will run with the latest released version on GitHub. It is strongly recommended however that you
 pin your ModuleFast to a specific version to avoid breaking changes.
 
 ```yaml
