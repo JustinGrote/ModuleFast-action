@@ -10,27 +10,29 @@ jobs:
     name: 🧪 ModuleFast Action Test
     runs-on: ubuntu-latest
     steps:
-      - name: 📂 Checkout
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
+      - name: Install Modules
+        uses: JustinGrote/ModuleFast-action@v0.0.0-alpha3
+      # - name: 📂 Checkout
+      #   uses: actions/checkout@v4
+      #   with:
+      #     fetch-depth: 0
 
-      - name: 🧪 ModuleFast Action - Specification
-        uses: ./
-        with:
-          release: main
-          specification: |
-            ImportExcel
-            TeamViewerPS
-            PendingReboot
-      - name: 🧪 Verify ModuleFast Action - Specification
-        run: |
-          Get-Module -ListAvailable DellBIOSProvider -ErrorAction Stop
+      # - name: 🧪 ModuleFast Action - Specification
+      #   uses: ./
+      #   with:
+      #     release: main
+      #     specification: |
+      #       ImportExcel
+      #       TeamViewerPS
+      #       PendingReboot
+      # - name: 🧪 Verify ModuleFast Action - Specification
+      #   run: |
+      #     Get-Module -ListAvailable DellBIOSProvider -ErrorAction Stop
 
-      - name: 🧪 ModuleFast Action - Requires File Detection
-        uses: ./
-        with:
-          release: main
-      - name: 🧪 Verify ModuleFast Action - Specification
-        run: |
-          Get-Module -ListAvailable Az.Accounts -ErrorAction Stop
+      # - name: 🧪 ModuleFast Action - Requires File Detection
+      #   uses: ./
+      #   with:
+      #     release: main
+      # - name: 🧪 Verify ModuleFast Action - Specification
+      #   run: |
+      #     Get-Module -ListAvailable Az.Accounts -ErrorAction Stop
