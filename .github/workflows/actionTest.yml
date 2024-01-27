@@ -12,6 +12,8 @@ jobs:
     steps:
       - name: Install Modules
         uses: JustinGrote/ModuleFast-action@v0.0.0-alpha3
+        with:
+          release: main
       # - name: 📂 Checkout
       #   uses: actions/checkout@v4
       #   with:
