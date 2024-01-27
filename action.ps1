@@ -31,6 +31,7 @@ $imfCommonParams = @{
   PassThru    = $true
   Debug       = $Debug
   Verbose     = $true
+  CI          = $true #For detecting lockfiles. The written CI file will be discarded.
 }
 
 Install-ModuleFast @imfParams @imfCommonParams @args
