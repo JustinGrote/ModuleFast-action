@@ -72,6 +72,31 @@ You can choose to specify your dependencies directly in the github action. Speci
 
 If you run Install-ModuleFast -CI locally, it will write a lock file to your repository. If you commit this lockfile, then the ModuleFast action will only install the specific modules specified in the lockfile if it is detected.
 
+### Pinning a ModuleFast Release Version
+
+Modulefast by default will run with the latest released version on GitHub. It is strongly recommended however that you
+pin your ModuleFast to a specific version to avoid breaking changes.
+
+```yaml
+- name: ⚡ ModuleFast with Specification
+  uses: JustinGrote/ModuleFast-action
+  with:
+    release: v0.1.0
+```
+
+### Using the latest development version
+
+In the other direction, if you need a fix that has not been released yet or otherwise want to test the bleeing edge of
+ModuleFast, specify 'main' for the release version to use the latest main commit. You can specify other branches in this
+way for feature testing as well.
+
+```yaml
+- name: ⚡ ModuleFast with Specification
+  uses: JustinGrote/ModuleFast-action
+  with:
+    release: main
+```
+
 ### Troubleshooting
 
 Modulefast reports information about what it is doing and its results normally. For highly detailed information, rerun a job with [debug logging enabled](https://docs.github.com/en/actions/monitoring-and-troubleshooting-workflows/enabling-debug-logging) to see more information.
