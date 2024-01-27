@@ -16,7 +16,7 @@ Function ConvertTo-Markdown {
     [Parameter(Mandatory, ValueFromPipeline)][PSObject[]]$inputObject
   )
   begin {
-    $inputObjects = [List[object]]::new()
+    [List[object]]$inputObjects = @()
   }
   process {
     $inputObjects.Add($inputObject)

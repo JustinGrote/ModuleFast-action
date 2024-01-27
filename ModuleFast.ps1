@@ -100,7 +100,7 @@ if (-not (Get-Module $ModuleName)) {
 #This is ModuleFast specific
 if ($UseMain) {
   Write-Debug 'UseMain Specified, ModuleFast will use preview.pwsh.gallery'
-  & (Get-Module $ModuleName) { $SCRIPT:DefaultSource = 'https://preview.pwsh.gallery/index.json' }
+  & $bootstrapModule { $SCRIPT:DefaultSource = 'https://preview.pwsh.gallery/index.json' }
 }
 
 if ($args) {
