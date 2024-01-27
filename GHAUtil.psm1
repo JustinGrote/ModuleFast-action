@@ -54,6 +54,87 @@ Function ConvertTo-Markdown {
   }
 }
 
+class GhaEnv {
+  #Thanks Copilot!
+  [string]$AGENT_TOOLSDIRECTORY
+  [string]$CI
+  [string]$GITHUB_ACTION
+  [string]$GITHUB_ACTION_PATH
+  [string]$GITHUB_ACTION_REF
+  [string]$GITHUB_ACTION_REPOSITORY
+  [string]$GITHUB_ACTIONS
+  [string]$GITHUB_ACTOR
+  [string]$GITHUB_ACTOR_ID
+  [string]$GITHUB_API_URL
+  [string]$GITHUB_BASE_REF
+  [string]$GITHUB_ENV
+  [string]$GITHUB_EVENT_NAME
+  [string]$GITHUB_EVENT_PATH
+  [string]$GITHUB_GRAPHQL_URL
+  [string]$GITHUB_HEAD_REF
+  [string]$GITHUB_JOB
+  [string]$GITHUB_OUTPUT
+  [string]$GITHUB_PATH
+  [string]$GITHUB_REF
+  [string]$GITHUB_REF_NAME
+  [string]$GITHUB_REF_PROTECTED
+  [string]$GITHUB_REF_TYPE
+  [string]$GITHUB_REPOSITORY
+  [string]$GITHUB_REPOSITORY_ID
+  [string]$GITHUB_REPOSITORY_OWNER
+  [string]$GITHUB_REPOSITORY_OWNER_ID
+  [string]$GITHUB_RETENTION_DAYS
+  [string]$GITHUB_RUN_ATTEMPT
+  [string]$GITHUB_RUN_ID
+  [string]$GITHUB_RUN_NUMBER
+  [string]$GITHUB_SERVER_URL
+  [string]$GITHUB_SHA
+  [string]$GITHUB_STATE
+  [string]$GITHUB_STEP_SUMMARY
+  [string]$GITHUB_TRIGGERING_ACTOR
+  [string]$GITHUB_WORKFLOW
+  [string]$GITHUB_WORKFLOW_REF
+  [string]$GITHUB_WORKFLOW_SHA
+  [string]$GITHUB_WORKSPACE
+  [string]$RUNNER_ARCH
+  [string]$RUNNER_DEBUG
+  [string]$RUNNER_ENVIRONMENT
+  [string]$RUNNER_NAME
+  [string]$RUNNER_OS
+  [string]$RUNNER_PERFLOG
+  [string]$RUNNER_TEMP
+  [string]$RUNNER_TOOL_CACHE
+  [string]$RUNNER_TRACKING_ID
+  [string]$RUNNER_USER
+  [string]$RUNNER_WORKSPACE
+}
+
+function Get-GhaEnvironment {
+  [OutputType([GhaEnv])]
+  param()
+  throw [System.NotImplementedException]'TODO: Implement this function'
+  $ghaEnv = [GhaEnv]::new()
+  $ghaEnv.psobject.properties | ForEach-Object {
+    $PSItem.Value = Get-GhaEnvironmentVariable -Name $PSItem.Name
+  }
+}
+
+function Assert-GhaEnvironment {
+  if (-not $ENV:GITHUB_ACTIONS) {
+    throw [NotSupportedException]'This script is not running in a GitHub Action'
+  }
+}
+
+function Get-GhaEnvironmentVariable ($Name) {
+  try {
+    Assert-GhaEnvironment
+  } catch {
+    $PSItem.ErrorDetails = "To test this function outside a github action, you must first set the value with `$env:$Name = 'value'"
+    throw $PSItem
+  }
+  return ENV:${Name}
+}
+
 function Initialize-GhaEnvironment ([switch]$Debug) {
   $GLOBAL:VerbosePreference = 'Continue'
   if ($Debug) {
@@ -66,6 +147,8 @@ function Initialize-GhaEnvironment ([switch]$Debug) {
   $GLOBAL:ErrorView = 'NormalView'
   $GLOBAL:ErrorActionPreference = 'Stop'
 }
+
+
 
 filter Out-GhaTable {
   begin {

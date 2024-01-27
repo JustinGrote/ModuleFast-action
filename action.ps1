@@ -6,8 +6,6 @@ param(
 Import-Module $PSScriptRoot/GHAUtil.psm1
 Initialize-GhaEnvironment -Debug:$Debug
 
-Write-GhaError
-
 Write-Debug 'Env and Variables'
 Write-Debug '================'
 Get-ChildItem env: | Format-Table | Out-String | Write-Debug
