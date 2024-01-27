@@ -10,14 +10,22 @@ jobs:
     name: 🧪 ModuleFast Action Test
     runs-on: ubuntu-latest
     steps:
+      - name: Plant Requires Script
+        run: |
+          @'
+          @{
+            'ImportExcel'      = 'latest'
+            'PnP.PowerShell'   = '2.2.156-nightly'
+            'PSScriptAnalyzer' = '<=1.21.0'
+            'Pester'           = '=5.4.0'
+            'Az.Accounts'      = ':[2.0.0, 2.13.2)'
+          }
+          '@ | Out-File -FilePath ./Test.requires.ps1 -Encoding utf8 -Force
+
       - name: Install Modules
         uses: JustinGrote/ModuleFast-action@v0.0.0-alpha3
         with:
           release: main
-      # - name: 📂 Checkout
-      #   uses: actions/checkout@v4
-      #   with:
-      #     fetch-depth: 0
 
       # - name: 🧪 ModuleFast Action - Specification
       #   uses: ./
