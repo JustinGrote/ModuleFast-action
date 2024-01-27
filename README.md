@@ -31,7 +31,25 @@ Then you can use the ModuleFast action with no additional configuration:
   uses: JustinGrote/ModuleFast-action
 ```
 
-Modulefast will install the latest versions available that meet your SpecFile requirements, and cache them. By default, ModuleFast will continue to use the cached versions that met the specification at the first time of run and will not look for module updates unless your specification changes to ensure the fastest setup possible. If you want ModuleFast to check every run for newer modules, set `update: true`
+Modulefast will install the latest versions available that meet your SpecFile requirements, and cache them. By default, ModuleFast will continue to use the cached versions that met the specification at the first time of run and will not look for module updates unless your specification changes to ensure the fastest setup possible. If you want ModuleFast to check every run for newer modules, set `update: true`.
+
+### Module or Script with Requires
+
+If you have a module manifest with a `RequiredModules` entry or a script with a `#requires -Module modulename` line, you can specify that with the `path` option to install the modules as specified by that requirement.
+
+`MyScript.ps1`
+
+```powershell
+#requires -module ImportExcel, @{ModuleName='PowerShellAI'; ModuleVersion='0.9.4'}
+dir env: | export-excel TEMP:\envstuff.xlsx
+```
+
+```yaml
+- name: ⚡ ModuleFast - Install Script Requires
+  uses: JustinGrote/ModuleFast-action
+  with:
+    path: MyScript.ps1
+```
 
 ### Specification
 
