@@ -1,11 +1,6 @@
 name: "ModuleFast"
 author: "Justin Grote @JustinWGrote github.com/JustinGrote"
-description: |
-  Installs PowerShell Modules in a high performance manner.
-
-  ModuleFast is a PowerShell module that installs other PowerShell modules. It is designed to be a high performance alternative to Install-Module. It is especially useful for CI/CD pipelines where you need to install a lot of modules quickly.
-
-  If the Runner Step Logging is enabled, this action will automatically run ModuleFast with -Debug and -Verbose. See: https://docs.github.com/en/actions/monitoring-and-troubleshooting-workflows/enabling-debug-logging
+description: Installs PowerShell Modules in a high performance declarative fashion.
 branding:
   color: "blue"
   icon: "download-cloud"
