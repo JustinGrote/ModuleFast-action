@@ -35,13 +35,30 @@ inputs:
 runs:
   using: "composite"
   steps:
+    - name: ⚙️ Set ModuleFast Cache Path
+      shell: pwsh
+      run: |
+        $Destination = '${{ inputs.destination }}'
+        if (-not $Destination) {
+          $Destination = $env:PSModulePath.split([IO.Path]::PathSeparator)[0]
+        }
+        if (-not (Test-Path $Destination)) {
+          New-Item -ItemType Directory -Path $Destination | Out-Null
+        }
+        "MODULEFAST_DESTINATION=$Destination" | Out-File -Append -FilePath $env:GITHUB_ENV
     - name: 💾 Cache Modulefast Modules
       uses: actions/cache@v4
       with:
-        path: /home/runner/.local/share/powershell/Modules
-        key: ${{ runner.os }}-${{ inputs.specification }}-${{ inputs.path }}-${{ hashFiles('**/*.requires.*')}}-${{ hashFiles('requires.lock.json')}}
+        path: ${{ env.MODULEFAST_DESTINATION }}
+        key: mfcache-OS:${{ runner.os }}-DEST:${{ env.MODULEFAST_DESTINATION }}-SPEC:${{ inputs.specification }}-PATHHASH:${{ hashFiles(inputs.path) }}-SPECFILEHASH${{ hashFiles('**/*.requires.*')}}-LOCKHASH${{ hashFiles('requires.lock.json')}}
+
+        restore-keys: |
+          mfcache-OS:${{ runner.os }}-DEST:${{ env.MODULEFAST_DESTINATION }}-SPEC:${{ inputs.specification }}-PATHHASH:${{ hashFiles(inputs.path) }}
+          mfcache-OS:${{ runner.os }}-DEST:${{ env.MODULEFAST_DESTINATION }}
+          mfcache-OS:${{ runner.os }}
 
     - name: "⚡ ModuleFast Install"
+      shell: pwsh
       run: |
         #ModuleFast GitHub Action Bootstrap
         $bootstrapParams = @{
@@ -50,6 +67,9 @@ runs:
         }
         $imfParams = @{
           ${{ inputs.specification != 0 && format('Specification=''{0}''', inputs.specification) || '' }}
+          ${{ inputs.path != 0 && format('Path=''{0}''', inputs.path) || '' }}
+          ${{ inputs.update != 0 && 'Update=$true' || '' }}
+          ${{ format('Destination=''{0}''', env.MODULEFAST_DESTINATION) }}
         }
         ${{ github.action_path }}/action.ps1 $bootstrapParams $imfParams $bootstrapParams.Debug ${{ inputs.args }}
-      shell: pwsh
+

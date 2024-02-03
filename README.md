@@ -2,7 +2,9 @@
 
 # ModuleFast Github Action
 
-[ModuleFast](https://github.com/JustinGrote/ModuleFast) installs PowerShell Modules in a high performance, declarative fashion, and is very useful for CI/CD scenarios for installing prerequisite modules quickly and correctly.
+[ModuleFast](https://github.com/JustinGrote/ModuleFast) installs PowerShell Modules in a high performance, declarative fashion, and is very useful for CI/CD scenarios for installing prerequisite modules quickly and correctly. It will install modules based on your specifications, provide you with a report of what was installed, and cache installed modules for future runs.
+
+![alt text](images/README/image-1.png)
 
 ## How to Use
 
