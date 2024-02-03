@@ -27,7 +27,7 @@ Example:
 Then you can use the ModuleFast action with no additional configuration:
 
 ```yaml
-- name: ⚡ ModuleFast
+- name: ⚡ Install PowerShell Modules
   uses: JustinGrote/ModuleFast-action
 ```
 
@@ -75,13 +75,13 @@ If you run Install-ModuleFast -CI locally, it will write a lock file to your rep
 ### Pinning a ModuleFast Release Version
 
 ModuleFast by default will run with the latest released version on GitHub. It is strongly recommended however that you
-pin your ModuleFast to a specific version to avoid breaking changes.
+pin your ModuleFast to a specific version to avoid breaking changes. The release tag is usually prefixed with a v e.g. "v0.2.0" instead of "0.1.0"
 
 ```yaml
 - name: ⚡ ModuleFast with Specification
   uses: JustinGrote/ModuleFast-action
   with:
-    release: v0.1.0
+    release: v0.2.0
 ```
 
 ### Using the latest development version

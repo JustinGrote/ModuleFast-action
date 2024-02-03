@@ -13,6 +13,10 @@ jobs:
           - ubuntu-latest
           - windows-latest
           - macos-latest
+        release:
+          - main
+          - latest
+          - v0.2.0
     name: 🧪 ModuleFast Action Test
     runs-on: ${{ matrix.os }}
     steps:
@@ -24,7 +28,7 @@ jobs:
       - name: 🧪 ModuleFast Action - Specification
         uses: ./
         with:
-          release: main
+          release: ${{ matrix.release }}
           specification: |
             Az
             ImportExcel
