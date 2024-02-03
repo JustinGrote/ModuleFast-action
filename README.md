@@ -10,7 +10,7 @@
 
 ### RequiresSpec
 
-The easiest way to use the action is to define a RequiresSpec in either json or psd1 format at `*.requires.psd1|json|jsonc` at the root of your project.
+The easiest way to use the action is to define a [RequiresSpec](https://github.com/JustinGrote/ModuleFast/blob/1dfe7d67caa45b1fefd3db5ec84d25ad895b94ed/ModuleFast.psm1#L55) in either json or psd1 format at `*.requires.psd1|json|jsonc` at the root of your project.
 
 Example:
 `Modules.requires.psd1`
@@ -22,7 +22,8 @@ Example:
   'PnP.PowerShell'   = '2.2.156-nightly'
   'PSScriptAnalyzer' = '<=1.21.0'
   'Pester'           = '=5.4.0'
-  'Az.Accounts'      = ':[2.0.0, 2.13.2)'
+  'Microsoft.PowerShell.PSResourceGet' = ':1.*' #All 1.x versions, will not install a 2.x version
+  'Az.Accounts'      = ':[2.0.0, 2.13.2)' #Install versions including 2.0.0 but only up to 2.13.1
 }
 ```
 
