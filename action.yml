@@ -47,7 +47,7 @@ runs:
         }
         "MODULEFAST_DESTINATION=$Destination" | Out-File -Append -FilePath $env:GITHUB_ENV
     - name: 💾 Cache Modulefast Modules
-      uses: actions/cache@v4
+      uses: actions/cache@v5
       with:
         path: ${{ env.MODULEFAST_DESTINATION }}
         key: mfcache-OS:${{ runner.os }}-DEST:${{ env.MODULEFAST_DESTINATION }}-SPEC:${{ inputs.specification }}-PATHHASH:${{ hashFiles(inputs.path) }}-SPECFILEHASH${{ hashFiles('**/*.requires.*')}}-LOCKHASH${{ hashFiles('requires.lock.json')}}
